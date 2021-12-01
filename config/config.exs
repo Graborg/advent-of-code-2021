@@ -11,6 +11,10 @@ config :advent_of_code, AdventOfCode.Input,
 # config :advent_of_code, AdventOfCode.Input,
 #   session_cookie: "..."
 
+if Mix.env == :dev do
+  config :mix_test_watch,
+    clear: true
+end
 try do
   import_config "secrets.exs"
 rescue
