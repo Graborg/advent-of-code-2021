@@ -5,17 +5,46 @@ defmodule AdventOfCode.Day02Test do
 
   @tag :skip
   test "part1" do
-    input = nil
-    result = part1(input)
+    input = """
+            forward 5
+            down 5
+            forward 8
+            up 3
+            down 8
+            forward 2
+            """
+            |>String.split("\n", trim: true)
+            |>Enum.map(&String.trim/1)
+    {hpos, dpos} = part1(input)
+            |> IO.inspect()
+    result = hpos * dpos
+    assert result == 150 
+  end
 
-    assert result
+  test "part1withInput" do
+    input = AdventOfCode.Input.get!(2, 2021)
+            |>String.split("\n", trim: true)
+            |>Enum.map(&String.trim/1)
+    {hpos, dpos} = part1(input)
+    result = hpos * dpos
+    IO.inspect(result, label: "\n Answer d01p01")
   end
 
   @tag :skip
   test "part2" do
-    input = nil
-    result = part2(input)
-
-    assert result
+    input = """
+            forward 5
+            down 5
+            forward 8
+            up 3
+            down 8
+            forward 2
+            """
+            |>String.split("\n", trim: true)
+            |>Enum.map(&String.trim/1)
+    {hpos, dpos} = part1(input)
+            |> IO.inspect()
+    result = hpos * dpos
+    assert result == 150 
   end
 end
