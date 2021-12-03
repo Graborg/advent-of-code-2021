@@ -19,12 +19,7 @@ defmodule AdventOfCode.Day03 do
     lines = Enum.count(args)
 
     Enum.map(args, fn x -> String.split(x, "", trim: true) |> Enum.map(&String.to_integer/1) end)
-    |> Enum.zip_with(fn binary_numbers -> 
-      cond do
-        Enum.sum(binary_numbers) >= lines/2 -> 1 
-        Enum.sum(binary_numbers) < lines/2 -> 0
-      end
-      end)
+    |> Enum.zip_with(fn binary_numbers -> if Enum.sum(binary_numbers) >= lines/2, do: 1, else: 0 end)
     |> Enum.join()
   end
 
@@ -40,17 +35,20 @@ defmodule AdventOfCode.Day03 do
 
   def rec([rating], _pos, _), do: rating
   def rec(args, position, "oxygen") do
-    bit_value = get_gamma_binary(args) |> String.at(position)  
+    bit_value = get_gamma_binary(args) 
+      |> String.at(position)  
+
     Enum.filter(args, fn x -> String.at(x, position) == bit_value end)
-    |> rec(position + 1, "oxygen")
+      |> rec(position + 1, "oxygen")
   end
 
   def rec(args, position, "c02") do
-    bit_value = get_gamma_binary(args) 
-      |> String.at(position)  
-      |> flip_binary() 
+    bit_value = get_gamma_binary(args)
+      |> String.at(position)
+      |> flip_binary()
+
     Enum.filter(args, fn x -> String.at(x, position) == bit_value end)
-    |> rec(position + 1, "c02")
+      |> rec(position + 1, "c02")
   end
   
 end
