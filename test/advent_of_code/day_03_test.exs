@@ -35,6 +35,7 @@ defmodule AdventOfCode.Day03Test do
     IO.inspect(result, label: "\n Answer d03p01")
   end
 
+  @tag :skip
   test "part2" do
     input = 
 """
@@ -54,6 +55,13 @@ defmodule AdventOfCode.Day03Test do
     |> String.split("\n", trim: true)
     result = part2(input)
 
-    assert result == 23
+    assert result == 230
+  end
+
+  test "part2withInput" do
+    AdventOfCode.Input.get!(3, 2021)
+    |> String.split("\n", trim: true)
+    |> part2()
+    |> IO.inspect(label: "\n Answer d03p02")
   end
 end
