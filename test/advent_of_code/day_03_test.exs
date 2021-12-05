@@ -3,6 +3,7 @@ defmodule AdventOfCode.Day03Test do
 
   import AdventOfCode.Day03
 
+  @tag :skip
   test "part1" do
     input = 
 """
@@ -34,6 +35,7 @@ defmodule AdventOfCode.Day03Test do
     IO.inspect(result, label: "\n Answer d03p01")
   end
 
+  @tag :skip
   test "part2" do
     input = 
 """
