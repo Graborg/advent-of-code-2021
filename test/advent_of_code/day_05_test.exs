@@ -3,6 +3,7 @@ defmodule AdventOfCode.Day05Test do
 
   import AdventOfCode.Day05
 
+  @tag :skip
   test "part1" do
     input = """
 0,9 -> 5,9
@@ -22,7 +23,8 @@ defmodule AdventOfCode.Day05Test do
     assert result == 5
   end
 
-  test "part1WithInput" do
+  @tag :skip
+  test "part1withInput" do
     input = AdventOfCode.Input.get!(5, 2021)
     |> String.split("\n", trim: true)
     result = part1(input)
@@ -30,7 +32,8 @@ defmodule AdventOfCode.Day05Test do
     IO.inspect(result, label: "\n Answer d05p01")
   end
   
-  test "part1" do
+  @tag :skip
+  test "part2" do
     input = """
 0,9 -> 5,9
 8,0 -> 0,8
@@ -44,8 +47,16 @@ defmodule AdventOfCode.Day05Test do
 5,5 -> 8,2
 """
   |> String.split("\n", trim: true)
-    result = part1(input)
+    result = part2(input)
 
-    assert result == 5
+    assert result == 12
+  end
+
+  test "part2withInput" do
+    input = AdventOfCode.Input.get!(5, 2021)
+    |> String.split("\n", trim: true)
+    result = part2(input)
+
+    IO.inspect(result, label: "\n Answer d05p02")
   end
 end
