@@ -52,6 +52,7 @@ defmodule AdventOfCode.Day05Test do
     assert result == 12
   end
 
+  @tag :skip
   test "part2withInput" do
     input = AdventOfCode.Input.get!(5, 2021)
     |> String.split("\n", trim: true)
