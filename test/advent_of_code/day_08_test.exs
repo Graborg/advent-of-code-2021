@@ -70,6 +70,7 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
 
     assert result == 61229
   end
+  @tag :skip
   test "part2withInput" do
    input = AdventOfCode.Input.get!(8, 2021)
 |> String.split("\n", trim: true)
