@@ -28,7 +28,7 @@ defmodule AdventOfCode.Day10Test do
 
     result = part1(input)
     IO.inspect(result, label: "\n Answer d10p01")
-    assert result
+    assert result == 167379
   end
 
   @tag :skip
@@ -47,6 +47,8 @@ defmodule AdventOfCode.Day10Test do
 
     assert result == 288957
   end
+
+  @tag :skip
   test "part2withInput" do
     input =
       AdventOfCode.Input.get!(10, 2021)
@@ -54,6 +56,6 @@ defmodule AdventOfCode.Day10Test do
 
     result = part2(input)
     IO.inspect(result, label: "\n Answer d10p02")
-    assert result
+    assert result == 2776842859
   end
 end
