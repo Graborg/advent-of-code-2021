@@ -39,7 +39,7 @@ defmodule AdventOfCode.Day11 do
   def inc(x), do: x + 1
 
   def rec(grid), do: rec({grid, 0}, 1)
-  def rec({_grid, pops}, 101), do: pops
+  def rec({_grid, pops}, 200), do: pops
 
   def rec({grid, pops}, count) do
     {new_grid, nr_pops} = increase_all(grid)
@@ -47,6 +47,15 @@ defmodule AdventOfCode.Day11 do
       |> set_poppers_to_zero()
     rec({new_grid, nr_pops + pops}, count + 1)
   end
+
+  def rec2(grid), do: rec2({grid, 0}, 1)
+  def rec2({grid, pops}, count) do
+    {new_grid, nr_pops} = increase_all(grid)
+      |> make_em_pop([])
+      |> set_poppers_to_zero()
+    if nr_pops == 100, do: count, else: rec2({new_grid, nr_pops + pops}, count + 1)
+  end
+
 
   def set_poppers_to_zero({grid, popped}), do: 
   {Enum.map(grid, fn row -> 
@@ -58,7 +67,6 @@ defmodule AdventOfCode.Day11 do
   end
 
   def make_em_pop(grid, prev_pops) do
-   # IO.inspect(prev_pops, label: "prev pops")
     new_poppers = 
       grid
       |> Enum.with_index()
@@ -165,5 +173,6 @@ defmodule AdventOfCode.Day11 do
       |> pop_up_right(row_nr, col_nr)
 
   def part2(args) do
+    rec2(args)
   end
 end
