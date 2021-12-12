@@ -26,7 +26,7 @@ defmodule AdventOfCode.Day01Test do
 
   @tag :skip
   test "part1withInput" do
-    input = AdventOfCode.Input.get!(1, 2021)
+   AdventOfCode.Input.get!(1, 2021)
             |>String.split("\n", trim: true)
             |>Enum.map(&String.trim/1)
             |>Enum.map(&String.to_integer/1)
@@ -58,7 +58,7 @@ defmodule AdventOfCode.Day01Test do
 
   @tag :skip
   test "part2withInput" do
-    input = AdventOfCode.Input.get!(1, 2021)
+   AdventOfCode.Input.get!(1, 2021)
             |>String.split("\n", trim: true)
             |>Enum.map(&String.trim/1)
             |>Enum.map(&String.to_integer/1)

@@ -30,7 +30,7 @@ defmodule AdventOfCode.Day04Test do
   
     [drawings | boards] = String.split(input, "\n", trim: true)
     |> Enum.map(fn x -> String.split(x, [",", " "], trim: true) end)
-    boards = boards |> Enum.chunk(5)
+    boards = boards |> Enum.chunk_every(5)
     result = part1([drawings, boards])
 
     assert result == 4512
@@ -41,7 +41,7 @@ defmodule AdventOfCode.Day04Test do
     input = AdventOfCode.Input.get!(4, 2021)
     [drawings | boards] = String.split(input, "\n", trim: true)
     |> Enum.map(fn x -> String.split(x, [",", " "], trim: true) end)
-    boards = boards |> Enum.chunk(5)
+    boards = boards |> Enum.chunk_every(5)
     result = part1([drawings, boards])
     IO.inspect(result, label: "\n Answer d04p01")
   end
@@ -73,7 +73,7 @@ defmodule AdventOfCode.Day04Test do
   
     [drawings | boards] = String.split(input, "\n", trim: true)
     |> Enum.map(fn x -> String.split(x, [",", " "], trim: true) end)
-    boards = boards |> Enum.chunk(5)
+    boards = boards |> Enum.chunk_every(5)
     result = part2([drawings, boards])
 
     assert result == 1924
@@ -84,8 +84,9 @@ defmodule AdventOfCode.Day04Test do
     input = AdventOfCode.Input.get!(4, 2021)
     [drawings | boards] = String.split(input, "\n", trim: true)
     |> Enum.map(fn x -> String.split(x, [",", " "], trim: true) end)
-    boards = boards |> Enum.chunk(5)
+    boards = boards |> Enum.chunk_every(5)
     result = part2([drawings, boards])
     IO.inspect(result, label: "\n Answer d04p02")
+    assert result == 18063
   end
 end
