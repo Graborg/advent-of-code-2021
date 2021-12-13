@@ -34,6 +34,7 @@ kj-dc
     assert result == 4573
   end
 
+  @tag :skip
   test "part2" do
     input = """
 dc-end
@@ -53,6 +54,7 @@ kj-dc
     assert result == 103
   end
 
+  @tag :skip
   test "part2withInput" do
     input =
       AdventOfCode.Input.get!(12, 2021)
