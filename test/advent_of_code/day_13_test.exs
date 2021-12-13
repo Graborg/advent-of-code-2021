@@ -45,16 +45,14 @@ defmodule AdventOfCode.Day13Test do
 
     result = part1(input)
     IO.inspect(result, label: "\n Answer d13p01")
-    # assert result == 
   end
 
+  @tag :skip
   test "part2withInput" do
-    input =
-      AdventOfCode.Input.get!(13, 2021)
-      |> String.split("\n", trim: true)
+    IO.puts("\n Answer d13p02")
 
-    result = part1(input)
-    # IO.inspect(result, label: "\n Answer d13p02")
-    # assert result == 
+    AdventOfCode.Input.get!(13, 2021)
+    |> String.split("\n", trim: true)
+    |> part1()
   end
 end

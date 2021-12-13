@@ -5,19 +5,21 @@ defmodule AdventOfCode.Day12Test do
 
   @tag :skip
   test "part1" do
-    input = """
-dc-end
-HN-start
-start-kj
-dc-start
-dc-HN
-LN-dc
-HN-end
-kj-sa
-kj-HN
-kj-dc
-    """
-|> String.split("\n", trim: true)
+    input =
+      """
+      dc-end
+      HN-start
+      start-kj
+      dc-start
+      dc-HN
+      LN-dc
+      HN-end
+      kj-sa
+      kj-HN
+      kj-dc
+      """
+      |> String.split("\n", trim: true)
+
     result = part1(input)
 
     assert result == 19
@@ -27,7 +29,7 @@ kj-dc
   test "part1withInput" do
     input =
       AdventOfCode.Input.get!(12, 2021)
-|> String.split("\n", trim: true)
+      |> String.split("\n", trim: true)
 
     result = part1(input)
     IO.inspect(result, label: "\n Answer d12p01")
@@ -36,19 +38,21 @@ kj-dc
 
   @tag :skip
   test "part2" do
-    input = """
-dc-end
-HN-start
-start-kj
-dc-start
-dc-HN
-LN-dc
-HN-end
-kj-sa
-kj-HN
-kj-dc
-    """
-|> String.split("\n", trim: true)
+    input =
+      """
+      dc-end
+      HN-start
+      start-kj
+      dc-start
+      dc-HN
+      LN-dc
+      HN-end
+      kj-sa
+      kj-HN
+      kj-dc
+      """
+      |> String.split("\n", trim: true)
+
     result = part2(input)
 
     assert result == 103
@@ -58,10 +62,10 @@ kj-dc
   test "part2withInput" do
     input =
       AdventOfCode.Input.get!(12, 2021)
-|> String.split("\n", trim: true)
+      |> String.split("\n", trim: true)
 
     result = part2(input)
     IO.inspect(result, label: "\n Answer d12p02")
-    assert result == 117509
+    assert result == 117_509
   end
 end
