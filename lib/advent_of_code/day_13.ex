@@ -1,34 +1,67 @@
 defmodule AdventOfCode.Day13 do
-  def part1(args) do
-    folds = Enum.filter(args, fn x -> String.starts_with?(x, "fold") end)
-    |> Enum.map(fn "fold along " <> fold -> [axis, index] = String.split(fold, "=") 
-    {axis, String.to_integer(index)}
+  def get_folds(args) do
+    Enum.filter(args, fn x -> String.starts_with?(x, "fold") end)
+    |> Enum.map(fn "fold along " <> fold ->
+      [axis, index] = String.split(fold, "=")
+      {axis, String.to_integer(index)}
     end)
-    |> List.first()
-    |> IO.inspect()
-
-    Enum.reject(args, fn x -> String.starts_with?(x, "fold") end)
-    |> Enum.map(fn x -> String.split(x, ",", trim: true) |> Enum.map(&String.to_integer/1) end)
-    |> IO.inspect()
-    |> put_on_map(folds)
-    |> Enum.filter(fn [x, y] -> x < folds end)
-    |> Enum.uniq()
-    |> IO.inspect(label: "done")
-    |> Enum.count()
-    |> IO.inspect(label: "done")
   end
 
-  def put_on_map(dots, first_fold) do
-    Enum.map(dots, fn ([x, y]) -> j(x,y, first_fold) end)  
-    end
-  
-  def j(x,y, {"y", index}) when y > index, do:
-    [x,index - (y - index)]  
+  def part1(args) do
+    folds = get_folds(args)
 
-  def j(x,y, {"x", index}) when x > index, do:
-    [index - (x - index),y]  
-  def j(x,y, {_, _}), do: [x,y]  
+    dot_indices =
+      args
+      |> Enum.reject(fn x -> String.starts_with?(x, "fold") end)
+      |> Enum.map(fn x -> String.split(x, ",", trim: true) |> Enum.map(&String.to_integer/1) end)
+      |> get_dot_indices_after_folds(folds)
 
-  def part2(args) do
+    max_x =
+      dot_indices
+      |> Enum.map(fn [x, _] -> x end)
+      |> Enum.max()
+
+    max_y =
+      dot_indices
+      |> Enum.map(fn [_, y] -> y end)
+      |> Enum.max()
+
+    map = List.duplicate(List.duplicate(".", max_x + 1), max_y + 1)
+
+    dot_indices
+    |> Enum.reduce(map, fn [x, y], acc ->
+      List.update_at(acc, y, fn row ->
+        List.update_at(row, x, fn _ -> "#" end)
+      end)
+    end)
+    |> print_grid()
+  end
+
+  def get_dot_indices_after_folds(dots, folds),
+    do:
+      Enum.reduce(folds, dots, fn fold, acc_dots ->
+        Enum.map(acc_dots, fn [x, y] -> j(x, y, fold) end)
+      end)
+
+  def j(x, y, {"y", index}) when y > index, do: [x, index - (y - index)]
+
+  def j(x, y, {"x", index}) when x > index, do: [index - (x - index), y]
+  def j(x, y, {_, _}), do: [x, y]
+
+  def print_grid(grid) do
+    IO.write("\n")
+
+    Enum.map(grid, fn row -> Enum.map(row, &add_color_to_letter/1) end)
+    |> Enum.join("\n")
+    |> IO.write()
+
+    IO.write("\n")
+  end
+
+  def add_color_to_letter("#"), do: IO.ANSI.green_background() <> " " <> IO.ANSI.reset()
+  def add_color_to_letter("."), do: IO.ANSI.red_background() <> " " <> IO.ANSI.reset()
+
+  def part2(_) do
+    ""
   end
 end
