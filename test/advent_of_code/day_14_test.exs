@@ -36,6 +36,7 @@ defmodule AdventOfCode.Day14Test do
     assert result == 1588
   end
 
+  @tag :skip
   test "part1withInput" do
     input =
       AdventOfCode.Input.get!(14, 2021)
@@ -46,7 +47,6 @@ defmodule AdventOfCode.Day14Test do
     assert result == 3306
   end
 
-  @tag :skip
   test "part2" do
     input =
       """
