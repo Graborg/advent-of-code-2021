@@ -77,16 +77,16 @@ defmodule AdventOfCode.Day15 do
     size = map |> Map.to_list() |> Enum.count()
     length = :math.sqrt(size) |> round() |> Kernel.-(1)
 
-    Enum.map(0..length, fn y ->
-      Enum.map(0..length, fn x ->
+    for y <- 0..length do
+      for x <- 0..length do
         risk = Map.get(map, {x, y}, 0) |> Integer.to_string()
         risk = if String.length(risk) == 1, do: "0" <> risk, else: risk
 
         if {x, y} in pathway,
           do: IO.ANSI.light_blue_background() <> risk <> IO.ANSI.reset() <> " ",
           else: risk <> " "
-      end)
-    end)
+      end
+    end
     |> Enum.join("\n")
     |> IO.write()
 
