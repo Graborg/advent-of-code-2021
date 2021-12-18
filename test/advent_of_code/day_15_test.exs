@@ -22,7 +22,18 @@ defmodule AdventOfCode.Day15Test do
 
     result = part1(input)
 
-    assert result
+    assert result == 40
+  end
+
+  @tag :skip
+  test "part1withInput" do
+    input =
+      AdventOfCode.Input.get!(15, 2021)
+      |> String.split("\n", trim: true)
+      |> Enum.map(fn x -> String.split(x, "", trim: true) |> Enum.map(&String.to_integer/1) end)
+
+    result = part1(input)
+    IO.inspect(result, label: "\n Answer d15p01")
   end
 
   @tag :skip
