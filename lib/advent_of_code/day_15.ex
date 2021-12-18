@@ -3,9 +3,11 @@ defmodule AdventOfCode.Day15 do
     IO.inspect(args)
     max_indices = {Enum.count(args) - 1, Enum.count(args) - 1}
     # bottom right corner / the exit
-    start_stack = [{max_indices, 0}]
+    start_stack = %{max_indices => 0}
 
-    base_case = base_case(args, max_indices)
+    base_case =
+      base_case(args, max_indices)
+      |> IO.inspect(label: "base_case")
 
     loop(start_stack, %{}, args, base_case)
     |> Map.get({0, 0})
@@ -20,61 +22,70 @@ defmodule AdventOfCode.Day15 do
   def base_case_lopp({x, y} = coord, grid, stop),
     do: get_risk(coord, grid) + base_case_lopp({x + 1, y}, grid, stop)
 
-  def loop([], map, _grid, _base_case), do: map
+  def loop(stack, map, _grid, _base_case) when stack == %{}, do: map
 
-  def loop([{{0, 0} = coord, risk} | rest], map, grid, base_case) do
+  def loop(stack, map, grid, base_case) when is_map_key(stack, {0, 0}) do
     IO.puts("FINISHED")
+    {risk, new_stack} = Map.pop!(stack, {0, 0})
+    IO.inspect(risk)
 
     new_map =
-      if risk < Map.get(map, coord, 1_000_000) && risk < base_case,
-        do: Map.put(map, coord, risk),
+      if risk < Map.get(map, {0, 0}, base_case) && risk < base_case,
+        do: Map.put(map, {0, 0}, risk),
         else: map
 
-    loop(rest, new_map, grid, base_case)
+    loop(new_stack, new_map, grid, Enum.min([risk, base_case]))
   end
 
-  def loop([{coord, old_risk} | rest] = stack, map, grid, base_case) do
+  def loop(stack, map, grid, base_case) do
+    {coord, old_risk} = List.first(Map.to_list(stack))
+    popped_stack = Map.delete(stack, coord)
     new_risk = get_risk(coord, grid) + old_risk
-    IO.inspect(stack)
-
-    # Map.keys(map)
-    # |> Enum.count()
-    # |> IO.inspect(label: "size of map")
 
     if new_risk < Map.get(map, coord, base_case) && new_risk < base_case do
       new_map = Map.put(map, coord, new_risk)
 
-      #   h = Map.get(map, coord, base_case)
-      #   if !is_nil(h), do: IO.inspect("replacing")
-
-      #   Map.keys(map)
-      #   |> Enum.count()
-      #   |> IO.inspect(label: "size of map 2")
-
       new_elems =
-        get_new_coords(coord, new_risk, grid, map, base_case)
-        |> Enum.map(fn coord -> {coord, new_risk} end)
+        get_new_coords(coord, grid)
+        |> Enum.reject(fn new_coord ->
+          new_new_risk = new_risk + get_risk(new_coord, grid)
+          risk_on_coord_in_stack = Map.get(popped_stack, new_coord, base_case)
+          risk_in_map = Map.get(new_map, new_coord, base_case)
 
-      new_list =
+          new_new_risk > risk_on_coord_in_stack || new_new_risk > risk_in_map ||
+            new_new_risk > base_case
+        end)
+
+      new_stack =
         new_elems
-        |> Enum.reduce(Enum.reverse(rest), fn x, curr_stack -> [x | curr_stack] end)
-        |> Enum.reverse()
+        |> Enum.reduce(popped_stack, fn c, tmp_stack ->
+          Map.put(tmp_stack, c, new_risk)
+        end)
 
-      loop(new_list, new_map, grid, base_case)
+      loop(new_stack, new_map, grid, base_case)
     else
-      #   IO.puts("THRWO IT!")
-      loop(rest, map, grid, base_case)
+      loop(popped_stack, map, grid, base_case)
     end
   end
 
-  def get_new_coords({x, y}, old_risk, grid, map, base_case),
+  def print_map(map) do
+    size = map |> Map.to_list() |> Enum.count() |> IO.inspect()
+    length = :math.sqrt(size) |> round() |> Kernel.-(1)
+
+    Enum.each(0..length, fn y ->
+      Enum.map(0..length, fn x ->
+        Map.get(map, {x, y}, "#")
+      end)
+      |> IO.inspect(limit: :infinity, width: :infinity)
+    end)
+
+    map
+  end
+
+  def get_new_coords({x, y}, grid),
     do:
       [{x + 1, y}, {x, y + 1}, {x - 1, y}, {x, y - 1}]
       |> Enum.reject(fn coords -> get_risk(coords, grid) |> is_nil() end)
-      |> Enum.reject(fn coords ->
-        new_risk = old_risk + get_risk(coords, grid)
-        new_risk > Map.get(map, coords, base_case) || new_risk > base_case
-      end)
 
   def get_risk({x, y}, _grid) when x < 0 or y < 0, do: nil
 
